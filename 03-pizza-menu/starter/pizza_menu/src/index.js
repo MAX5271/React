@@ -58,35 +58,50 @@ function App() {
 }
 
 const Header = () => {
-//   const style = { color: "red", fontSize: "48px", textTransform: "uppercase" };
-const style = {};
-  return <header className="header">
-      <h1 style={style} >Fast React Pizza Co.</h1>;
+  //   const style = { color: "red", fontSize: "48px", textTransform: "uppercase" };
+  const style = {};
+  return (
+    <header className="header">
+      <h1 style={style}>Fast React Pizza Co.</h1>;
     </header>
+  );
 };
 const Menu = () => {
   return (
     <main className="menu">
       <h2>Our Menu</h2>
-      <Pizza />
+      <Pizza
+        name="Pizza Spinaci"
+        price={12}
+        photoName="pizzas/spinaci.jpg"
+        ingredients="Tomato, mozarella, spinach, and ricotta cheese"
+      />
+      <Pizza
+        name="Pizza Prosciutto"
+        price={18}
+        photoName="pizzas/prosciutto.jpg"
+        ingredients="Tomato, mozarella, ham, aragula, and burrata cheese"
+      />
     </main>
   );
 };
+function Pizza(props) {
+  return (
+    <div className="pizza">
+      <img src={props.photoName} alt={props.photoName} />
+      <div>
+        <h3>{props.photoName}</h3>
+        <p>{props.ingredients}</p>
+        <span>{props.price}$</span>
+      </div>
+    </div>
+  );
+}
 const Footer = () => {
   return (
     <footer>{new Date().toLocaleTimeString()}.We're currently open!</footer>
   );
 };
-
-function Pizza() {
-  return (
-    <div>
-      <img src="pizzas/spinaci.jpg" alt="Pizza Image" />
-      <h3>Pizza Spinaci</h3>
-      <p>Tomato, mozarella, spinach, and ricotta cheese</p>
-    </div>
-  );
-}
 
 //react-v18
 const root = ReactDOM.createRoot(document.getElementById("root"));
