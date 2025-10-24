@@ -62,7 +62,7 @@ const Header = () => {
   const style = {};
   return (
     <header className="header">
-      <h1 style={style}>Fast React Pizza Co.</h1>;
+      <h1 style={style}>Fast Pizza Co.</h1>;
     </header>
   );
 };
@@ -72,12 +72,20 @@ const Menu = () => {
     <main className="menu">
       <h2>Our Menu</h2>
       {!isPizzaZero ? (
-        <ul className="pizzas">
-          {pizzaData.map((pizza) => (
-            <Pizza pizzaObj={pizza} key={pizza.name} />
-          ))}
-        </ul>
-      ): <p>We are still working on our menu. Please come back later </p> }
+        // <></> this is know as react fragment. Use this when you want to send to elements but do not want to bind them together as binding together will give them same properties.
+        <React.Fragment key={"OrderMenu"}>
+          <p>
+            Home of the best pizza's in Agra. Come and feast on these mouthwatering pizza's or order online and dine on them with the comfortablity of your home.
+          </p>
+          <ul className="pizzas">
+            {pizzaData.map((pizza) => (
+              <Pizza pizzaObj={pizza} key={pizza.name} />
+            ))}
+          </ul>
+        </React.Fragment>
+      ) : (
+        <p>We are still working on our menu. Please come back later </p>
+      )}
 
       {/* <Pizza
         name="Pizza Spinaci"
@@ -94,17 +102,17 @@ const Menu = () => {
     </main>
   );
 };
-function Pizza(props) {
-
-  if(props.pizzaObj.soldOut) return null;
+//Destructuring object
+function Pizza({ pizzaObj }) {
 
   return (
-    <li className="pizza">
-      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.photoName} />
+    // Using ternary operators to change the style by applying classes conditionally
+    <li className={`pizza ${pizzaObj.soldOut? "sold-out":""}`}>
+      <img src={pizzaObj.photoName} alt={pizzaObj.photoName} />
       <div>
-        <h3>{props.pizzaObj.name}</h3>
-        <p>{props.pizzaObj.ingredients}</p>
-        <span>{props.pizzaObj.price}$</span>
+        <h3>{pizzaObj.name}</h3>
+        <p>{pizzaObj.ingredients}</p>
+        <span>{pizzaObj.soldOut?<span>SOLD OUT</span>:<span>{pizzaObj.price}$</span>}</span>
       </div>
     </li>
   );
@@ -119,7 +127,9 @@ const Footer = () => {
           <p>We're currently open!</p>
           <button className="btn">Order</button>
         </div>
-      ):<p>We are open from 7AM to 10PM.</p>}
+      ) : (
+        <p>We are open from 7AM to 10PM.</p>
+      )}
     </footer>
   );
 };
