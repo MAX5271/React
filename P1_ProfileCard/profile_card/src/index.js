@@ -73,7 +73,7 @@ const Skill = ({ skillObj }) => {
         {skillObj.skill}
         {
           skillObj.level=="advanced"?
-          <span>💪</span>:skillObj.level=="intermediate"?
+          <span>💪</span>:skillObj=="intermediate"?
           <span>👍</span>:<span>👶</span>
         }
       </h4>
