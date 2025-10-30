@@ -15,34 +15,38 @@ function Counter() {
     setCount((count) => count - step);
   };
 
-  const increaseStep = () => {
-    setStep((step) => step + 1);
-  };
-
-  const decreaseStep = () => {
-    if (step > 1) setStep((step) => step - 1);
-  };
+  const resetAttributes = ()=>{
+    setCount(0);
+    setStep(1);
+  }
 
   return (
     <div>
-      <div style={{ padding: "7px" }}>
-        <button onClick={decreaseStep}>➖</button>
-        <span style={{ padding: "7px" }}>Step: {step}</span>
-        <button onClick={increaseStep}>➕</button>
+      <div>
+        <span>
+        <input type="range" min={0} max={10} value={step} onChange={(e)=>setStep(Number(e.target.value))}/> Step:{step}
+        </span>
       </div>
-      <div style={{ padding: "7px" }}>
-        <button onClick={decreaseCount}>➖</button>
-        <span style={{ padding: "7px" }}>Count: {count}</span>
-        <button onClick={increaseCount}>➕</button>
-      </div>
-
+    <div>
+    <span>
+          <button onClick={decreaseCount}>-</button>
+        <input value={count} onChange={(e)=>setCount(Number(e.target.value))}/>
+        <button onClick={increaseCount}>+</button>
+        </span>
+    </div>
       <p>
         <span>
-          {count == 0?<span>Today is </span>:
-          count > 0?<span>{count} day from today will be </span>:
-          <span>{Math.abs(count)} day from today was </span>} {date.toDateString()}.
+          {count == 0 ? (
+            <span>Today is </span>
+          ) : count > 0 ? (
+            <span>{count} day from today will be </span>
+          ) : (
+            <span>{Math.abs(count)} day from today was </span>
+          )}{" "}
+          {date.toDateString()}.
         </span>
       </p>
+      {step!=1||count!=0?<button onClick={resetAttributes}>Reset</button>:null}
     </div>
   );
 }
