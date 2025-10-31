@@ -28,7 +28,7 @@ function Accordion({ data }) {
   return (
     <div className="accordion">
       {faqs.map((item, i) => (
-        <AccordionItem num={i + 1} title={item.title} text={item.text} />
+        <AccordionItem num={i + 1} title={item.title} text={item.text} key={item.title} />
       ))}
     </div>
   );
