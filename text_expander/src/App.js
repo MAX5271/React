@@ -37,9 +37,9 @@ export default function App() {
 
 function TextExpander({children,
   collapsedNumWords=10,
-  collapseButtonText="show less",
-  expandButtonText="show more",
-  buttonColor="#0048ffff",
+  collapseButtonText="Show less",
+  expandButtonText="Show more",
+  buttonColor="#1f09cd",
   className="",
   expanded=false
 }) {
@@ -51,13 +51,21 @@ function TextExpander({children,
     setIsOpen(!isOpen);
   }
 
+  const buttonStyle = {
+    background: "none",
+    border: "none",
+    font: "inherit",
+    cursor: "pointer",
+    marginLeft: "6px",
+    color: buttonColor
+  };
+
   return <div className={className}>{
     !isOpen?
-    children.split(" ",collapsedNumWords).map((el,i)=><span key={i}>{el} </span>):
+    children.split(" ",collapsedNumWords).join(" ")+"...":
     children
     }
-    <span>{!isOpen?"...":null}</span>
-    <span role="button" style={{color:buttonColor}} onClick={handleIsOpen}>
+    <button style={buttonStyle} onClick={handleIsOpen}>
       {!isOpen?expandButtonText:collapseButtonText}
-      </span></div>;
+      </button></div>;
 }
