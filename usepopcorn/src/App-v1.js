@@ -15,6 +15,7 @@ export default function App() {
   // const [watched, setWatched] = useState([]);
   const [watched, setWatched] = useState(function(){
     const storedValue = localStorage.getItem('watched');
+    if(storedValue===null) return [];
     return JSON.parse(storedValue);
   });
   
@@ -407,6 +408,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 }
 
 function WatchedSummary({ watched }) {
+
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
   const avgUserRating = average(watched.map((movie) => movie.userRating));
   const avgRuntime = average(watched.map((movie) => movie.runtime));
