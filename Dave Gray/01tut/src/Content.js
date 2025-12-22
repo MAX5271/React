@@ -1,25 +1,9 @@
-import { useState } from "react";
-import { FaTrashAlt } from "react-icons/fa";
+import { useState,useRef } from "react";
+import { FaTrashAlt, FaPlus } from "react-icons/fa";
 
-function Content() {
-  const [items, setItems] = useState([
-    {
-      id: 1,
-      checked: false,
-      item: "Aata",
-    },
-    {
-      id: 2,
-      checked: false,
-      item: "Sattu",
-    },
-    {
-      id: 3,
-      checked: false,
-      item: "Maida",
-    },
-  ]);
+function Content({ items, setItems }) {
   const [item, setItem] = useState("");
+  const inputRef = useRef();
 
   function handleCheckBox(id) {
     const arr = items.map((ele) => {
@@ -36,11 +20,16 @@ function Content() {
     localStorage.setItem("shoppingList", JSON.stringify(arr));
   }
 
-  function handleAddItem() {
+  function handleAddItem(e) {
+    e.preventDefault();
     if (item === "") return;
     const arr = [
       ...items,
-      { id: items.length + 2, checked: false, item: item },
+      {
+        id: items.length ? items[items.length - 1].id + 1 : 1,
+        checked: false,
+        item: item,
+      },
     ];
     setItems(arr);
     setItem("");
@@ -49,6 +38,22 @@ function Content() {
 
   return (
     <main>
+        <form className="addForm" onSubmit={handleAddItem}>
+            <label htmlFor="addItem">Add Item</label>
+            <input
+              autoFocus
+              ref={inputRef}
+              id="addItem"
+              type="text"
+              placeholder="Add Item"
+              required
+              value={item}
+              onChange={(e) => setItem(e.target.value)}
+            />
+            <button type="submit" aria-label="Add Item" onClick={()=>inputRef.current.focus()}>
+              <FaPlus />
+            </button>
+          </form>
       {items.length ? (
         <div>
           <ul>
@@ -75,17 +80,10 @@ function Content() {
               </li>
             ))}
           </ul>
-          <div>
-            {" "}
-            <input
-              value={item}
-              onChange={(e) => setItem(e.target.value)}
-            />{" "}
-            <button onClick={handleAddItem}>Add Item</button>{" "}
-          </div>
+          
         </div>
       ) : (
-        <p style={{ marginTop: "2rem" }}>Your list is empty.</p>
+        <p style={{ marginTop: "2rem" }}>Nothing to see here.</p>
       )}
     </main>
   );

@@ -1,4 +1,4 @@
-function Header() {
+function Header({title = "Groceries List"}) {
   return (
     <header style={{
         backgroundColor:"blue",
@@ -6,7 +6,7 @@ function Header() {
         justifyContent:"start",
         fontSize:"30px"
     }}>
-        Groceries List
+        {title}
     </header>
   )
 }

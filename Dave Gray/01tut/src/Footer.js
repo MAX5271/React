@@ -1,12 +1,7 @@
-function Footer() {
-
-    const date = new Date().getFullYear();
-
+function Footer({ length }) {
   return (
-    <footer>
-        Copyright &copy; {date}
-    </footer>
+    <footer>{length === 0 ? <p>Add items to your list</p> : length === 1 ? <p>1 List Item</p> : <p>{length} List Items</p>}</footer>
   );
 }
 
-export default Footer
+export default Footer;
