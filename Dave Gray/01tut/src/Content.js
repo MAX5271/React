@@ -1,60 +1,16 @@
-import { useState,useRef } from "react";
+import { useRef } from "react";
 import { FaTrashAlt, FaPlus } from "react-icons/fa";
+import AddItem from "./AddItem";
 
-function Content({ items, setItems }) {
-  const [item, setItem] = useState("");
+function Content({ items, setItems, fetchError,handleAddItem,item, setItem, handleCheckBox,handleDelete }) {
+  
   const inputRef = useRef();
 
-  function handleCheckBox(id) {
-    const arr = items.map((ele) => {
-      if (ele.id === id)
-        return { id: ele.id, checked: !ele.checked, item: ele.item };
-      else return ele;
-    });
-    setItems(arr);
-  }
-
-  function handleDelete(id) {
-    const arr = items.filter((ele) => ele.id !== id);
-    setItems(arr);
-    localStorage.setItem("shoppingList", JSON.stringify(arr));
-  }
-
-  function handleAddItem(e) {
-    e.preventDefault();
-    if (item === "") return;
-    const arr = [
-      ...items,
-      {
-        id: items.length ? items[items.length - 1].id + 1 : 1,
-        checked: false,
-        item: item,
-      },
-    ];
-    setItems(arr);
-    setItem("");
-    localStorage.setItem("shoppingList", JSON.stringify(arr));
-  }
-
+ 
   return (
     <main>
-        <form className="addForm" onSubmit={handleAddItem}>
-            <label htmlFor="addItem">Add Item</label>
-            <input
-              autoFocus
-              ref={inputRef}
-              id="addItem"
-              type="text"
-              placeholder="Add Item"
-              required
-              value={item}
-              onChange={(e) => setItem(e.target.value)}
-            />
-            <button type="submit" aria-label="Add Item" onClick={()=>inputRef.current.focus()}>
-              <FaPlus />
-            </button>
-          </form>
-      {items.length ? (
+        {<AddItem handleAddItem={handleAddItem} inputRef={inputRef} item={item} setItem={setItem} />}
+      { fetchError?fetchError: items.length ? (
         <div>
           <ul>
             {items.map((item) => (
@@ -90,3 +46,6 @@ function Content({ items, setItems }) {
 }
 
 export default Content;
+
+
+
