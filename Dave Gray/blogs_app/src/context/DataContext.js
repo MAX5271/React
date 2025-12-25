@@ -1,0 +1,97 @@
+import { createContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { format } from "date-fns";
+import api from "../api/posts.js";
+import useWindowSize from "../hooks/useWindowSize.js";
+import useAxiosFetch from "../hooks/useAxiosFetch.js";
+
+const DataContext = createContext({});
+
+export const DataProvider = ({ children }) => {
+  const [posts, setPosts] = useState([]);
+  const [search, setSearch] = useState("");
+  const [searchResults, setSearchResults] = useState("");
+  const [postTitle, setPostTitle] = useState("");
+  const [postBody, setPostBody] = useState("");
+  const [editTitle, setEditTitle] = useState("");
+  const [editBody, setEditBody] = useState("");
+  const navigate = useNavigate();
+  const { width } = useWindowSize();
+  const { data, fetchError, isLoading } = useAxiosFetch(
+    "http://localhost:3500/posts"
+  );
+
+  useEffect(() => {
+    setPosts(data);
+  }, [data]);
+
+  useEffect(() => {
+    const filteredSearchResults = posts.filter(
+      (post) =>
+        post.body.toLowerCase().includes(search.toLowerCase()) ||
+        post.title.toLowerCase().includes(search.toLowerCase())
+    );
+
+    setSearchResults(filteredSearchResults.reverse());
+  }, [posts, search]);
+
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/posts/${id}`);
+      const postList = posts.filter((post) => post.id !== id);
+      setPosts(postList);
+    } catch (error) {
+      console.log(error.message);
+    }
+    navigate("/");
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const datetime = format(new Date(), "MMMM dd ,yyyy pp");
+    const newPost = {
+      id: posts.length
+        ? (Number(posts[posts.length - 1].id) + 1).toString()
+        : "1",
+      title: postTitle,
+      datetime: datetime,
+      body: postBody,
+    };
+    try {
+      const res = await api.post("/posts", newPost);
+      console.log(res.data);
+      setPosts([...posts, res.data]);
+      setPostBody("");
+      setPostTitle("");
+      navigate("/");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleEdit = async (id) => {
+    const datetime = format(new Date(), "MMMM dd, yyyy pp");
+    const updatedPost = { id, title: editTitle, datetime, body: editBody };
+    try {
+      const response = await api.put(`/posts/${id}`, updatedPost);
+      setPosts(
+        posts.map((post) => (post.id === id ? { ...response.data } : post))
+      );
+      setEditTitle("");
+      setEditBody("");
+      navigate("/");
+    } catch (err) {
+      console.log(`Error: ${err.message}`);
+    }
+  };
+
+  return <DataContext.Provider value={{
+    width, search, setSearch,
+    searchResults,fetchError,isLoading,handleDelete,handleEdit,handleSubmit,
+    posts,setPosts, editTitle, editBody, setEditBody, setEditTitle,
+    postTitle,postBody,setPostBody,setPostTitle,
+    
+  }}>{children}</DataContext.Provider>;
+};
+
+export default DataContext;
