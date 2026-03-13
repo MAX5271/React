@@ -56,7 +56,7 @@ export default function App() {
       {/* --- THE SPATIAL RIPPLE OVERLAY --- */}
       {/* Notice the duration-300 and ease-in to make it explode outwards aggressively */}
       <div 
-        className="fixed rounded-full pointer-events-none z-50 transition-transform duration-500 ease-in"
+        className="fixed rounded-full pointer-events-none z-50 transition-transform duration-300 ease-in"
         style={{
           left: ripple.x,
           top: ripple.y,
