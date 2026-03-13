@@ -1,0 +1,52 @@
+/* Import Tailwind v4 */
+@import "tailwindcss";
+
+/* The Tailwind Map: Tells Tailwind to generate utility classes based on our custom variables */
+@theme {
+  --color-base: var(--theme-base);
+  --color-surface: var(--theme-surface);
+  --color-primary: var(--theme-primary);
+  --color-muted: var(--theme-muted);
+  --color-accent: var(--theme-accent);
+  --color-accent-text: var(--theme-accent-text);
+  --color-border-line: var(--theme-border-line);
+
+  --radius-theme: var(--theme-radius);
+  --shadow-theme: var(--theme-shadow);
+  --font-theme: var(--theme-font);
+}
+
+/* BASE THEME: MINIMALISM */
+:root, [data-theme="minimalism"] {
+  --theme-base: #fcfcfc;
+  --theme-surface: #ffffff;
+  --theme-primary: #171717;
+  --theme-muted: #737373;
+  --theme-accent: #171717;
+  --theme-accent-text: #ffffff;
+  --theme-border-line: #e5e7eb;
+  
+  --theme-radius: 0.5rem;
+  --theme-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --theme-font: 'Inter', system-ui, sans-serif;
+}
+
+/* SECONDARY THEME: BRUTALISM */
+[data-theme="brutalism"] {
+  --theme-base: #e5e5e5;     /* Industrial gray background */
+  --theme-surface: #ffb800;  /* Harsh yellow cards */
+  --theme-primary: #000000;  /* Pitch black text */
+  --theme-muted: #000000;    /* No subtle grays in brutalism */
+  --theme-accent: #ff003c;   /* Aggressive pink/red buttons */
+  --theme-accent-text: #ffffff;
+  --theme-border-line: #000000; /* Thick black borders */
+  
+  --theme-radius: 0px;       /* Sharp corners */
+  --theme-shadow: 8px 8px 0px 0px #000000; /* Solid offset shadow */
+  --theme-font: 'Courier New', monospace;
+}
+
+/* Custom utility to prevent scrolling during the 300ms wipe */
+.no-scroll {
+  overflow: hidden;
+}
